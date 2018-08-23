@@ -5,23 +5,43 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+	Button button;
+	Stage window;
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	@Override
+	public void start(Stage primaryWindow) {
+		window = primaryWindow;
+		
+        window.setTitle("thenewboston");
+        button = new Button("Click Me");
 
-    Button button;
+        button.setOnAction(e -> {
+        	closeApplication();
+        });
+        
+        window.setOnCloseRequest(event -> {
+        	event.consume();
+        	closeApplication();
+        });
+        
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Title of the Window");
-        button = new Button();
-        button.setText("Click me");
         StackPane layout = new StackPane();
         layout.getChildren().add(button);
         Scene scene = new Scene(layout, 300, 250);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
+        window.setScene(scene);
+        window.show();
+		
+	}
+	
+	private void closeApplication() {
+		Boolean result = ConfirmBox.display("Are you sure you want to quit?");
+		
+		if (result)
+			window.close();
+	}
 }
